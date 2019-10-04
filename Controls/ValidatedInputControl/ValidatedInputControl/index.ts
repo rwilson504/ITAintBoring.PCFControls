@@ -8,7 +8,7 @@ export class ValidatedInputControl implements ComponentFramework.StandardControl
   // Error message to dipslay if RegEx test fails
   private _errorMessage: string;
   // Show error if the value of the input field is emty
-  private _showErrorOnEmptyValue: boolean | null = false;
+  private _showErrorOnEmptyValue: boolean;
   // PCF framework delegate which will be assigned to this object which would be called whenever any update happens. 
   private _notifyOutputChanged: () => void;
   // label element created as part of this control
@@ -31,22 +31,15 @@ export class ValidatedInputControl implements ComponentFramework.StandardControl
  
   public setErrorState(value: string)
   {
-	if ((!value && !this._showErrorOnEmptyValue) || this._regEx == null || this._regEx.test(value)) {
-		this.labelElement.innerHTML = "";
-		this._isError = false;
-	}
-    else {
-		this.labelElement.innerHTML = this._errorMessage;
-		this._isError = true;
-	}
-	return this._isError;
+    var valid = ((!value && !this._showErrorOnEmptyValue) || this._regEx == null || this._regEx.test(value));
+    this.labelElement.innerHTML = valid ? "" : this._errorMessage;
+    return this._isError = !valid;    
   }
 
   public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement) {
 	  debugger;
     this._context = context;
     this._container = document.createElement("div");
-	  this._container
     this._notifyOutputChanged = notifyOutputChanged;
     this._blurHandler = this.blurHandler.bind(this);
 	  this._inputHandler = this.inputHandler.bind(this);
@@ -65,7 +58,7 @@ export class ValidatedInputControl implements ComponentFramework.StandardControl
     
   this._showErrorOnEmptyValue = (context.parameters.showErrorOnEmptyValue && context.parameters.showErrorOnEmptyValue.raw && context.parameters.showErrorOnEmptyValue.raw.toLowerCase() === 'false') ? false : true;
 
-  var currentValue = context.parameters.value.formatted ? context.parameters.value.formatted : "0";
+  var currentValue = context.parameters.value.formatted || "";
   this.inputElement.setAttribute("value", currentValue);
 	this.labelElement = document.createElement("label");
   
