@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="ItAintBoring.PCFControls" constructor="ValidatedInputControl" version="0.0.235" display-name-key="Validated Input Control" description-key="Validated Input Control" control-type="standard">
+  <control namespace="ItAintBoring.PCFControls" constructor="ValidatedInputControl" version="0.0.251" display-name-key="Validated Input Control" description-key="Validated Input Control" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="value" display-name-key="Value" description-key="Value" of-type="SingleLine.Text" usage="bound" required="true" />
-	<property name="regEx" display-name-key="Regular Expression" description-key="Regular Expression" of-type="SingleLine.Text" usage="input" required="false" />
+	  <property name="regEx" display-name-key="Regular Expression" description-key="Regular Expression" of-type="SingleLine.Text" usage="input" required="false" />
+	  <property name="errorMessage" display-name-key="Error Message" description-key="Error message to display when Regular Expression fails." of-type="SingleLine.Text" usage="input" required="true" default-value="Incorrect format!" />
+    <property name="showErrorOnEmptyValue" display-name-key="Show Error on Empty Value" description-key="Should the error message be shown if the value of the input field is empty." of-type="SingleLine.Text" usage="input" required="true" default-value="false" />
     <!-- 
       Property node's of-type attribute can be of-type-group attribute. 
       Example:
